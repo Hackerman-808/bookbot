@@ -1,6 +1,9 @@
+from collections import Counter
+
+
 def readtext():
     # This is a one-liner option, but poses risks as without with statement things can complicate:
-    # return open("books/frankenstein.txt").read()
+    # code: return open("books/frankenstein.txt").read()
     with open("books/frankenstein.txt") as f:
         file_contents = f.read()
     return file_contents
@@ -18,12 +21,17 @@ def wordcount():
     return len(formatword())
 
 
-def charcount():
-    return {char: formatchar().count(char) for char in set(formatchar())}
+def charcountsort():
+    return sorted(Counter(formatchar()).items(), key=lambda x: x[1], reverse=True)
 
 
 def main():
-    print(f"Number of words is: {wordcount()} \n{'\n'.join(f'{k}: {v}' for k, v in charcount().items())}")
+    print( 
+        f"\n--- Begin report of books/frankenstein.txt ---"
+        f"\n\n{wordcount()} words found in the document"
+        f"\n\n{'\n'.join(f'The \'{char}\' character was found {count} times' for char, count in charcountsort())}"
+        f"\n\n--- End of report ---\n"
+        )
 
 
 main()
